@@ -305,6 +305,7 @@ form.addEventListener("submit", async (e) => {
   const submitBtn = form.querySelector("button[type='submit']");
   const originalText = submitBtn.textContent;
 
+  note.textContent = "";
   submitBtn.disabled = true;
   submitBtn.textContent = currentLang === "ar" ? "جاري الإرسال..." : "Sending...";
 
@@ -322,29 +323,33 @@ form.addEventListener("submit", async (e) => {
   try {
     const response = await fetch("/.netlify/functions/submit-project", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
 
-    const result = await response.json();
-
     if (!response.ok) {
-      throw new Error(result.message || "Request failed");
+      throw new Error("Request failed");
     }
+
+    form.reset();
 
     note.textContent =
       currentLang === "ar"
-        ? "تم إرسال تفاصيل مشروعك بنجاح. سنتواصل معك قريبًا لمناقشة المتطلبات."
-        : "Your project details were sent successfully. We will contact you soon.";
+        ? "✅ تم إرسال تفاصيل مشروعك بنجاح. سنراجع التفاصيل ونتواصل معك قريبًا."
+        : "✅ Your project details were sent successfully. We will contact you soon.";
 
-    form.reset();
+    note.style.color = "#22c55e";
+    note.style.fontWeight = "700";
+    note.style.display = "block";
   } catch (error) {
     note.textContent =
       currentLang === "ar"
-        ? "حدث خطأ أثناء الإرسال. تأكد من الاتصال أو إعدادات النموذج."
-        : "Something went wrong. Please check the form setup.";
+        ? "❌ حدث خطأ أثناء الإرسال. حاول مرة أخرى بعد قليل."
+        : "❌ Something went wrong. Please try again later.";
+
+    note.style.color = "#ef4444";
+    note.style.fontWeight = "700";
+    note.style.display = "block";
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = originalText;
