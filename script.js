@@ -297,11 +297,52 @@ const observer = new IntersectionObserver(
 document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 const form = document.getElementById("quoteForm");
 const note = document.getElementById("formNote");
-form.addEventListener("submit", (e) => {
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  note.textContent =
-    currentLang === "ar"
-      ? "تمت تجربة النموذج فقط. حاليًا لا يتم إرسال البيانات لأي مكان، ويمكن ربطه لاحقًا بالبريد أو قاعدة بيانات أو واتساب."
-      : "Form tested only. Currently, the data is not sent anywhere. It can later be connected to email, a database, or WhatsApp.";
-  form.reset();
+
+  const submitBtn = form.querySelector("button[type='submit']");
+  submitBtn.disabled = true;
+  submitBtn.textContent = currentLang === "ar" ? "جاري الإرسال..." : "Sending...";
+
+  const formData = {
+    name: form.querySelector("[name='name']").value,
+    company: form.querySelector("[name='company']").value,
+    whatsapp: form.querySelector("[name='whatsapp']").value,
+    email: form.querySelector("[name='email']").value,
+    projectType: form.querySelector("[name='projectType']").value,
+    message: form.querySelector("[name='message']").value,
+  };
+
+  try {
+    const response = await fetch("/.netlify/functions/submit-project", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Request failed");
+    }
+
+    note.textContent =
+      currentLang === "ar"
+        ? "تم إرسال تفاصيل مشروعك بنجاح. سنتواصل معك قريبًا لمناقشة المتطلبات."
+        : "Your project details were sent successfully. We will contact you soon to discuss the requirements.";
+
+    form.reset();
+  } catch (error) {
+    note.textContent =
+      currentLang === "ar"
+        ? "حدث خطأ أثناء الإرسال. حاول مرة أخرى لاحقًا."
+        : "Something went wrong while sending. Please try again later.";
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent =
+      currentLang === "ar" ? "إرسال تفاصيل المشروع" : "Send Project Details";
+  }
 });
