@@ -207,20 +207,33 @@
           </div>
         </div>
         <form class="quote-form reveal" id="quoteForm">
-          <div class="form-row"><input data-i18n-placeholder="formName" placeholder="الاسم" required><input data-i18n-placeholder="formCompany" placeholder="اسم الشركة / النشاط"></div>
-          <div class="form-row"><input data-i18n-placeholder="formPhone" placeholder="رقم الواتساب" required><input type="email" data-i18n-placeholder="formEmail" placeholder="البريد الإلكتروني"></div>
-          <select data-i18n-label="formProject" required>
+          <div class="form-row">
+            <input name="name" data-i18n-placeholder="formName" placeholder="الاسم" required>
+            <input name="company" data-i18n-placeholder="formCompany" placeholder="اسم الشركة / النشاط">
+          </div>
+
+          <div class="form-row">
+            <input name="whatsapp" data-i18n-placeholder="formPhone" placeholder="رقم الواتساب" required>
+            <input name="email" type="email" data-i18n-placeholder="formEmail" placeholder="البريد الإلكتروني">
+          </div>
+
+          <select name="projectType" data-i18n-label="formProject" required>
             <option value="" data-i18n="formProject">نوع المشروع</option>
-            <option data-i18n="optWebsite">موقع إلكتروني</option>
-            <option data-i18n="optMobile">تطبيق جوال</option>
-            <option data-i18n="optDesktop">تطبيق سطح مكتب</option>
-            <option data-i18n="optStore">متجر إلكتروني</option>
-            <option data-i18n="optSystem">نظام إدارة</option>
-            <option data-i18n="optOther">حل تقني آخر</option>
+            <option value="موقع إلكتروني" data-i18n="optWebsite">موقع إلكتروني</option>
+            <option value="تطبيق جوال" data-i18n="optMobile">تطبيق جوال</option>
+            <option value="تطبيق سطح مكتب" data-i18n="optDesktop">تطبيق سطح مكتب</option>
+            <option value="متجر إلكتروني" data-i18n="optStore">متجر إلكتروني</option>
+            <option value="نظام إدارة" data-i18n="optSystem">نظام إدارة</option>
+            <option value="حل تقني آخر" data-i18n="optOther">حل تقني آخر</option>
           </select>
-          <textarea rows="5" data-i18n-placeholder="formDetails" placeholder="اكتب وصفًا مختصرًا للمشروع"></textarea>
+
+          <textarea name="message" rows="5" data-i18n-placeholder="formDetails" placeholder="اكتب وصفًا مختصرًا للمشروع" required></textarea>
+
           <button class="btn btn-primary" type="submit" data-i18n="formBtn">إرسال تفاصيل المشروع</button>
-          <p class="form-note" id="formNote" data-i18n="formNote">النموذج الحالي لا يرسل البيانات فعليًا حتى يتم ربطه بالبريد الإلكتروني أو قاعدة بيانات أو واتساب.</p>
+
+          <p class="form-note" id="formNote" data-i18n="formNote">
+            النموذج الحالي لا يرسل البيانات فعليًا حتى يتم ربطه بالبريد الإلكتروني أو قاعدة بيانات أو واتساب.
+          </p>
         </form>
       </div>
     </section>
