@@ -129,7 +129,7 @@ const translations = {
     formDetails: "اكتب وصفًا مختصرًا للمشروع",
     formBtn: "إرسال تفاصيل المشروع",
     formNote:
-      "النموذج الحالي لا يرسل البيانات فعليًا حتى يتم ربطه بالبريد الإلكتروني أو قاعدة بيانات أو واتساب.",
+      "",
     footerTagline:
       "تجارب رقمية احترافية للشركات ورواد الأعمال في اليمن والسعودية والخليج.",
     footerLinksTitle: "روابط سريعة",
@@ -249,7 +249,7 @@ const translations = {
     formDetails: "Write a short description of the project",
     formBtn: "Send Project Details",
     formNote:
-      "This form does not send data yet until it is connected to email, a database, or WhatsApp.",
+      "",
     footerTagline:
       "Professional digital experiences for businesses and entrepreneurs in Yemen, Saudi Arabia, and the Gulf.",
     footerLinksTitle: "Quick Links",
