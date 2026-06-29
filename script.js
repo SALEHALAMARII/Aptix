@@ -295,6 +295,7 @@ const observer = new IntersectionObserver(
   { threshold: 0.12 },
 );
 document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
 const form = document.getElementById("quoteForm");
 const note = document.getElementById("formNote");
 
@@ -302,16 +303,20 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const submitBtn = form.querySelector("button[type='submit']");
+  const originalText = submitBtn.textContent;
+
   submitBtn.disabled = true;
   submitBtn.textContent = currentLang === "ar" ? "جاري الإرسال..." : "Sending...";
 
-  const formData = {
-    name: form.querySelector("[name='name']").value,
-    company: form.querySelector("[name='company']").value,
-    whatsapp: form.querySelector("[name='whatsapp']").value,
-    email: form.querySelector("[name='email']").value,
-    projectType: form.querySelector("[name='projectType']").value,
-    message: form.querySelector("[name='message']").value,
+  const formData = new FormData(form);
+
+  const data = {
+    name: formData.get("name") || "",
+    company: formData.get("company") || "",
+    whatsapp: formData.get("whatsapp") || "",
+    email: formData.get("email") || "",
+    projectType: formData.get("projectType") || "",
+    message: formData.get("message") || "",
   };
 
   try {
@@ -320,7 +325,7 @@ form.addEventListener("submit", async (e) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(data),
     });
 
     const result = await response.json();
@@ -332,17 +337,16 @@ form.addEventListener("submit", async (e) => {
     note.textContent =
       currentLang === "ar"
         ? "تم إرسال تفاصيل مشروعك بنجاح. سنتواصل معك قريبًا لمناقشة المتطلبات."
-        : "Your project details were sent successfully. We will contact you soon to discuss the requirements.";
+        : "Your project details were sent successfully. We will contact you soon.";
 
     form.reset();
   } catch (error) {
     note.textContent =
       currentLang === "ar"
-        ? "حدث خطأ أثناء الإرسال. حاول مرة أخرى لاحقًا."
-        : "Something went wrong while sending. Please try again later.";
+        ? "حدث خطأ أثناء الإرسال. تأكد من الاتصال أو إعدادات النموذج."
+        : "Something went wrong. Please check the form setup.";
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent =
-      currentLang === "ar" ? "إرسال تفاصيل المشروع" : "Send Project Details";
+    submitBtn.textContent = originalText;
   }
 });
